@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
 
 import com.microsoft.playwright.Page;
 import com.qa.swingpay.PlayWrightFactory;
@@ -23,10 +24,15 @@ public class BaseTest {
 	 protected DashboardPage dashboardPage;
 	 protected ForgotPasswordPage forgotPasswordPage;
 	
+	@Parameters({"browser"})
 	@BeforeTest
-	public void setup() {
+	public void setup(String browserName) {
 		pf = new PlayWrightFactory();
 		prop = pf.init_prop();
+		
+		if(browserName != null) {
+			prop.setProperty("browser", browserName);
+		}
 		page = pf.initBrowser(prop);
 		homepage = new HomePage(page);
 		
